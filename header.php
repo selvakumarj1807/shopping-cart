@@ -2,16 +2,20 @@
 
    <div class="flex">
 
-      <a href="#" class="logo">foodies</a>
+      <a href="index.php" class="logo">foodies</a>
 
       <nav class="navbar">
          <a href="admin.php">add products</a>
          <a href="products.php">view products</a>
+         <a href="register.php">Register</a>
+         <a href="logIn.php">Log In</a>
+         <a href="logOut.php">Log Out</a>
       </nav>
 
       <?php
-      
-      $select_rows = mysqli_query($conn, "SELECT * FROM `cart`") or die('query failed');
+      @include 'config.php';
+
+      $select_rows = mysqli_query($conn, "SELECT * FROM `cart` WHERE u_email = '$email'") or die('query failed');
       $row_count = mysqli_num_rows($select_rows);
 
       ?>

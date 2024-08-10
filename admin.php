@@ -1,4 +1,18 @@
 <?php
+session_start();
+
+// Check if user is logged in
+if (!isset($_SESSION['email']) || empty($_SESSION['email'])) {
+   // Redirect to login if not logged in
+   header("Location: logIn.php");
+   exit;
+}
+
+// Access user information from session variables
+$email = $_SESSION['email'];
+$user_name = $_SESSION['user_name'];
+?>
+<?php
 
 @include 'config.php';
 

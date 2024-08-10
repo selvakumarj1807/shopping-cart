@@ -1,4 +1,18 @@
 <?php
+session_start();
+
+// Check if user is logged in
+if (!isset($_SESSION['email']) || empty($_SESSION['email'])) {
+   // Redirect to login if not logged in
+   header("Location: logIn.php");
+   exit;
+}
+
+// Access user information from session variables
+$email = $_SESSION['email'];
+$user_name = $_SESSION['user_name'];
+?>
+<?php
 
 @include 'config.php';
 
@@ -6,7 +20,6 @@ if(isset($_POST['order_btn'])){
 
    $name = $_POST['name'];
    $number = $_POST['number'];
-   $email = $_POST['email'];
    $method = $_POST['method'];
    $flat = $_POST['flat'];
    $street = $_POST['street'];
@@ -15,7 +28,10 @@ if(isset($_POST['order_btn'])){
    $country = $_POST['country'];
    $pin_code = $_POST['pin_code'];
 
-   $cart_query = mysqli_query($conn, "SELECT * FROM `cart`");
+   $email = $_SESSION['email'];
+
+
+   $cart_query = mysqli_query($conn, "SELECT * FROM `cart` WHERE u_email = '$email'");
    $price_total = 0;
    if(mysqli_num_rows($cart_query) > 0){
       while($product_item = mysqli_fetch_assoc($cart_query)){
@@ -84,7 +100,7 @@ if(isset($_POST['order_btn'])){
 
    <div class="display-order">
       <?php
-         $select_cart = mysqli_query($conn, "SELECT * FROM `cart`");
+         $select_cart = mysqli_query($conn, "SELECT * FROM `cart` WHERE u_email = '$email'");
          $total = 0;
          $grand_total = 0;
          if(mysqli_num_rows($select_cart) > 0){
